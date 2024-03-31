@@ -1,12 +1,14 @@
 import "./styles.css";
-import * as productService from "../../../services/product-service";
 import editIcon from "../../../assets/edit.svg";
 import deleteIcom from "../../../assets/delete.svg";
 import { useEffect, useState } from "react";
+import * as productService from "../../../services/product-service";
 import { ProductDTO } from "../../../models/product";
 import SearchBar from "../../../components/SearchBar";
 import ButtonNexPage from "../../../components/ButtonNextPage";
 import DialogInfo from "../../../components/DialogInfo";
+import DialogConfirmation from '../../../components/DialogConfirmation';
+
 
 type QueryParams = {
   page: number;
@@ -18,7 +20,14 @@ export default function ProductListing() {
   const [dialogInfoData, setDialogInfoData] = useState({
     visible: false,
     message: "Operação com sucesso!"
-});
+  });
+
+  const [dialogConfirmationData, setDialogConfirmationData] = useState({
+    visible: false,
+    id: 0,
+    message: "Tem certeza?"
+  });
+
 
   const [isLastPage, setIsLastPage] = useState(false);
 
@@ -53,8 +62,25 @@ function handleDialogInfoClose() {
 }
 
 function handleDeleteClick() {
-  setDialogInfoData({ ...dialogInfoData, visible: true });
+  setDialogConfirmationData({ ...dialogConfirmationData, visible: true });
 }
+
+function handleDialogConfirmationAnswer(answer: boolean, productId: number) {
+  if (answer) {
+      productService.deleteById(productId)
+          .then(() => {
+              setProducts([]);
+              setQueryParams({ ...queryParams, page: 0 });
+          }).catch(error => {
+              setDialogInfoData({
+                  visible: true,
+                  message: error.response.data.error
+              });
+          })
+  }
+  setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
+}
+
 
 
   return (
@@ -107,6 +133,13 @@ function handleDeleteClick() {
           <DialogInfo 
               message={dialogInfoData.message}
               onDialogClose={handleDialogInfoClose} />
+      }
+
+      {
+          dialogConfirmationData.visible &&
+          <DialogConfirmation
+              message={dialogConfirmationData.message}
+              onDialogAnswer={handleDialogConfirmationAnswer} />
       }
 
     </main>
