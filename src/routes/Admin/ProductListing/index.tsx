@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { ProductDTO } from "../../../models/product";
 import SearchBar from "../../../components/SearchBar";
 import ButtonNexPage from "../../../components/ButtonNextPage";
+import DialogInfo from "../../../components/DialogInfo";
 
 type QueryParams = {
   page: number;
@@ -13,6 +14,12 @@ type QueryParams = {
 };
 
 export default function ProductListing() {
+
+  const [dialogInfoData, setDialogInfoData] = useState({
+    visible: false,
+    message: "Operação com sucesso!"
+});
+
   const [isLastPage, setIsLastPage] = useState(false);
 
   const [products, setProducts] = useState<ProductDTO[]>([]);
@@ -41,9 +48,14 @@ export default function ProductListing() {
     setQueryParams({ ...queryParams, page: queryParams.page + 1 })
 }
 
+function handleDialogInfoClose() {
+  setDialogInfoData({ ...dialogInfoData, visible: false });
+}
 
+function handleDeleteClick() {
+  setDialogInfoData({ ...dialogInfoData, visible: true });
+}
 
-  //onClick={() => handleDeleteClick(product.id)}
 
   return (
     <main>
@@ -77,7 +89,7 @@ export default function ProductListing() {
                   <td className="dsc-tb768">R$ {product.price.toFixed(2)}</td>
                   <td className="dsc-txt-left">{product.name}</td>
                   <td><img className="dsc-product-listing-btn" src={editIcon} alt="Editar" /></td> 
-                  <td><img className="dsc-product-listing-btn" src={deleteIcom} alt="Deletar" /></td>
+                  <td><img  onClick={handleDeleteClick} className="dsc-product-listing-btn" src={deleteIcom} alt="Deletar" /></td>
                 </tr>
             ))
             }
@@ -90,6 +102,13 @@ export default function ProductListing() {
               <ButtonNexPage onNextPage={handleNextPageClick} />
         }
       </section>
+      {
+          dialogInfoData.visible &&
+          <DialogInfo 
+              message={dialogInfoData.message}
+              onDialogClose={handleDialogInfoClose} />
+      }
+
     </main>
   );
 }
