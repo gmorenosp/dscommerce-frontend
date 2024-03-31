@@ -5,7 +5,6 @@ import deleteIcom from "../../../assets/delete.svg";
 import { useEffect, useState } from "react";
 import { ProductDTO } from "../../../models/product";
 import SearchBar from "../../../components/SearchBar";
-import ButtonNextPage from "../../../components/ButtonNextPage";
 import ButtonNexPage from "../../../components/ButtonNextPage";
 
 type QueryParams = {
