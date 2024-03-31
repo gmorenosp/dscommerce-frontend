@@ -71,7 +71,8 @@ function handleDialogConfirmationAnswer(answer: boolean, productId: number) {
           .then(() => {
               setProducts([]);
               setQueryParams({ ...queryParams, page: 0 });
-          }).catch(error => {
+          })
+          .catch(error => {
               setDialogInfoData({
                   visible: true,
                   message: error.response.data.error
