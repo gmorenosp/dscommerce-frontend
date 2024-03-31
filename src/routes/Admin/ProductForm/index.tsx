@@ -123,6 +123,10 @@ function handleSubmit(event: any) {
     request
         .then(() => {
           navigate("/admin/products");
+        })
+        .catch(error => {
+          const newInputs = forms.setBackendErros(formData, error.response.data.errors);
+          setFormData(newInputs);
         });
 }
 
