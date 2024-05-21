@@ -2,7 +2,7 @@
 
 :root {
   --dsc-color-bg-primary: #e8e8e8;
-  --dsc-color-bg-secondary: #ffe500;
+  --dsc-color-bg-secondary: red;
   --dsc-color-bg-tertiary: #636363;
   --dsc-color-bg-quaternary: #0caf1d;
   --dsc-color-bg-notification: #f00;
@@ -14,6 +14,7 @@
   --dsc-color-btn-inverse: #fff;
 
   --dsc-color-font-primary: #636363;
+  --dsc-color-font-primary-promo: #fff;
   --dsc-color-font-secondary: #0caf1d;
   --dsc-color-font-tertiary: #fff;
   --dsc-color-font-placeholder: #d9d9d9;
@@ -85,6 +86,7 @@ header {
   display: flex;
   align-items: center;
   padding: 0 20px;
+  background-image: linear-gradient(to right, #FF3130 , #FF8B4A)
 }
 
 nav {
@@ -95,10 +97,16 @@ nav {
 
 nav h1 {
   font-size: 16px;
+  
 }
 
 nav a {
   font-size: 14px;
+  color: var(--dsc-color-font-placeholder);
+}
+
+a:hover {
+  color: var(--dsc-color-font-primary-promo);
 }
 
 .dsc-navbar-right {
